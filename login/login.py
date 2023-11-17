@@ -1,20 +1,23 @@
 import streamlit as st
 import sqlite3 as sql
 from hashlib import sha512
-import utils.state as state
+import datetime
+import extra_streamlit_components as stx
 
 
 # Author: Simon Schulze
 # Date: Nov 16th 2023
+# Last change: Nov 17th 2023 by Simon Schulze
 # Description: This is the script that handles the login process.
 
 
-def login(form_ph, warning_ph, con: sql.Connection) -> bool:
+def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> bool:
 
     """
     Runs the login script for the application.
     :param form_ph: The empty Streamlit-container for the form.
     :param con: The connection to the database.
+    :param cm: The cookie manager used to set the log-in-cookie.
     :return: True or false, whether the authentication was successful or not.
     """
 
@@ -34,13 +37,19 @@ def login(form_ph, warning_ph, con: sql.Connection) -> bool:
 
         if len(result) == 1:  # check the password hashes
             if result[0][0] == password.hexdigest():
-                state.logged_in = True
-                st.experimental_rerun()  # hashes match
+
+                # set the log-in-cookie to keep users logged in
+
+                expires_at = datetime.datetime.now() + datetime.timedelta(0, 600)
+                cm.set("logged_in", True, expires_at=expires_at)
+                return True
             else:
                 with warning_ph.container():
                     st.warning("Diese Anmeldedaten existieren nicht!")
+                return False  # hashes do not match
         else:
             with warning_ph.container():
                 st.warning("Diese Anmeldedaten existieren nicht!")
+                return False  # no such username
 
-    return False  # hashes do not match
+    return False
