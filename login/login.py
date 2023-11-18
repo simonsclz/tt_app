@@ -7,11 +7,11 @@ import extra_streamlit_components as stx
 
 # Author: Simon Schulze
 # Date: Nov 16th 2023
-# Last change: Nov 17th 2023 by Simon Schulze
+# Last change: Nov 18th 2023 by Simon Schulze
 # Description: This is the script that handles the login process.
 
 
-def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> bool:
+def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (bool, str):
 
     """
     Runs the login script for the application.
@@ -40,16 +40,17 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> bo
 
                 # set the log-in-cookie to keep users logged in
 
-                expires_at = datetime.datetime.now() + datetime.timedelta(0, 600)
-                cm.set("logged_in", True, expires_at=expires_at)
-                return True
+                expires_at = datetime.datetime.now() + datetime.timedelta(0, 10)
+                cm.set(key="log_in", cookie="logged_in", val=True, expires_at=expires_at)
+                cm.set(key="user_name", cookie="user_name", val=user_name, expires_at=expires_at)
+                return True, user_name
             else:
                 with warning_ph.container():
                     st.warning("Diese Anmeldedaten existieren nicht!")
-                return False  # hashes do not match
+                return False, ""  # hashes do not match
         else:
             with warning_ph.container():
                 st.warning("Diese Anmeldedaten existieren nicht!")
-                return False  # no such username
+                return False, ""  # no such username
 
-    return False
+    return False, ""

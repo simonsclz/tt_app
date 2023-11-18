@@ -8,11 +8,11 @@ import extra_streamlit_components as stx
 
 # Author: Simon Schulze
 # Date: Nov 16th 2023
-# Last change: Nov 17th 2023 by Simon Schulze
+# Last change: Nov 18th 2023 by Simon Schulze
 # Description: This is the main application with its basic structure.
 
 
-@st.cache_resource
+@st.cache_resource(experimental_allow_widgets=True)
 def establish_connection() -> sql.Connection:
 
     """
@@ -48,18 +48,19 @@ def app() -> None:
 
     c1, c2 = st.columns([4, 1])
     c1.header("Tischtennis Adorf 1. Mannschaft")
-    c2.image(Image.open("./images/adorf.jpg"), width=125)
+    # c2.image(Image.open("./images/adorf.jpg"), width=125)
+    c2.header(":table_tennis_paddle_and_ball:" * 3)
 
     form_ph = st.empty()
     data_ph = st.empty()
 
-    logged_in = login(form_ph, data_ph, con, cm)
+    logged_in, user_name = login(form_ph, data_ph, con, cm)
 
     if not logged_in and cm.get("logged_in") is None:  # also test the log-in-cookie
         st.stop()
 
     form_ph.empty()
-    display(data_ph, con)  # gets executed only if logged in
+    display(data_ph, con, cm.get("user_name"))  # gets executed only if logged in
 
 
 if __name__ == "__main__":
