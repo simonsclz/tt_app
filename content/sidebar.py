@@ -34,10 +34,10 @@ def display_sidebar(con: sql.Connection, user_name: str, att_ph) -> None:
 
     cur = con.cursor()
 
-    img = get_image()
+    # img = get_image()
 
     with st.sidebar:
-        st.image(img, width=200)
+        st.image("https://github.com/simonsclz/tt_app/blob/main/images/adorf.jpg", width=200)
         st.markdown(f"""**Das ist dein Kontrollzentrum, {user_name}.**
                     Wähle unten ein Spiel aus und gib bescheid, ob Du da bist, oder nicht.
                     Du kannst Deine Entscheidung ändern.
