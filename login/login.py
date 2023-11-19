@@ -12,7 +12,6 @@ import sqlite3 as sql
 
 
 def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (bool, str):
-
     """
     Runs the login script for the application.
     :param form_ph: The empty Streamlit-container for the form.
@@ -21,14 +20,19 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
     :return: True or false, whether the authentication was successful or not.
     """
 
-    with form_ph.container():
-        with st.form(key="login_form"):
-            user_name = st.text_input("Benutzername:", key="user_name")
-            password = st.text_input("Passwort:", type="password")
-            clicked = st.form_submit_button("Anmelden!")
+    def show_login(form_ph):
+        with form_ph.container():
+            with st.form(key="login_form"):
+                st.text_input("Benutzername:", key="user_name")
+                st.text_input("Passwort:", type="password", key="password")
+                st.form_submit_button("Anmelden!", on_click=check_password)
 
-    if clicked:
-        password = sha512(password.encode('utf-8'))
+    def check_password():
+        if not st.session_state.get("password", False) or not st.session_state.get("user_name", False):
+            return False
+
+        password = sha512(st.session_state["password"].encode('utf-8'))
+        user_name = st.session_state["user_name"]
 
         # get the password from the specified user
         cur = con.cursor()
@@ -43,14 +47,19 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
                 expires_at = datetime.datetime.now() + datetime.timedelta(0, 600)
                 cm.set(key="log_in", cookie="logged_in", val=True, expires_at=expires_at)
                 cm.set(key="user_name", cookie="user_name", val=user_name, expires_at=expires_at)
-                return True, user_name
+                st.session_state["password_correct"] = True
+                return True
             else:
                 with warning_ph.container():
                     st.warning("Diese Anmeldedaten existieren nicht!")
-                return False, ""  # hashes do not match
+                return False  # hashes do not match
         else:
             with warning_ph.container():
                 st.warning("Diese Anmeldedaten existieren nicht!")
-                return False, ""  # no such username
+                return False  # no such username
 
-    return False, ""
+    if st.session_state.get("password_correct", False):
+        return True
+
+    show_login(form_ph)
+    return False

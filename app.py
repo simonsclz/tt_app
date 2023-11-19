@@ -54,13 +54,17 @@ def app() -> None:
     form_ph = st.empty()
     data_ph = st.empty()
 
-    logged_in, user_name = login(form_ph, data_ph, con, cm)
+    logged_in = login(form_ph, data_ph, con, cm)
 
-    if not st.session_state['logged_in'] and cm.get("logged_in") is None:  # also test the log-in-cookie
+    if not logged_in and cm.get("logged_in") is None:  # also test the log-in-cookie
         st.stop()
 
     form_ph.empty()
-    display(data_ph, con, cm.get("user_name"))  # gets executed only if logged in
+
+    if cm.get("user_name"):
+        display(data_ph, con, cm.get("user_name"))  # gets executed only if logged in
+    else:
+        display(data_ph, con, st.session_state["user_name"])
 
 
 if __name__ == "__main__":
