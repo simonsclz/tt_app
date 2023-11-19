@@ -59,8 +59,6 @@ def app() -> None:
     if not logged_in and cm.get("logged_in") is None:  # also test the log-in-cookie
         st.stop()
 
-    with form_ph.container():
-        st.write(user_name)
     form_ph.empty()
     display(data_ph, con, cm.get("user_name"))  # gets executed only if logged in
 
