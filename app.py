@@ -8,7 +8,7 @@ import extra_streamlit_components as stx
 
 # Author: Simon Schulze
 # Date: Nov 16th 2023
-# Last change: Nov 18th 2023 by Simon Schulze
+# Last change: Nov 19th 2023 by Simon Schulze
 # Description: This is the main application with its basic structure.
 
 

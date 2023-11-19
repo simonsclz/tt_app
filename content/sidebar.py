@@ -8,7 +8,7 @@ from content.game_attendance import display_attendance
 
 # Author: Simon Schulze
 # Date: Nov 17th 2023
-# Last change: Nov 18th 2023 by Simon Schulze
+# Last change: Nov 19th 2023 by Simon Schulze
 # Description: The sidebar will be constructed in this script.
 
 
