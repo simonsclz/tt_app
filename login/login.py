@@ -51,6 +51,7 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
 
         if len(result) == 1:  # check the password hashes
             if result[0][0] == password.hexdigest():
+                expires_at = datetime.datetime.now() + datetime.timedelta(0, 600)
                 cm.set(key="user_name", cookie="user_name", val=user_name, expires_at=expires_at)
                 return True, user_name
             else:
