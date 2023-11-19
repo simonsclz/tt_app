@@ -1,6 +1,7 @@
 import streamlit as st
 from PIL import Image
 import sqlite3 as sql
+import sqlalchemy as sqla
 from utils.date import transform
 from content.game_attendance import display_attendance
 
@@ -19,7 +20,19 @@ def get_image() -> Image:
     :return: The image returned as a PIL image.
     """
 
-    return Image.open("/tt_app/images/adorf.jpg")
+    return Image.open("/Users/simonschulze/tt/tt_app/images/adorf.jpg")
+
+
+@st.cache_resource
+def get_write_connection():
+
+    """
+    Since writing in an SQL-database is not possible with SQLite3 when running on
+    Streamlit-cloud, we need to create a Streamlit-DB-connection.
+    :return:
+    """
+
+    return st.experimental_connection("login_data", type="sql")
 
 
 def display_sidebar(con: sql.Connection, user_name: str, att_ph) -> None:
@@ -34,10 +47,10 @@ def display_sidebar(con: sql.Connection, user_name: str, att_ph) -> None:
 
     cur = con.cursor()
 
-    # img = get_image()
+    img = get_image()
 
     with st.sidebar:
-        st.image("https://github.com/simonsclz/tt_app/blob/main/images/adorf.jpg", width=200)
+        st.image(img, width=200)
         st.markdown(f"""**Das ist dein Kontrollzentrum, {user_name}.**
                     Wähle unten ein Spiel aus und gib bescheid, ob Du da bist, oder nicht.
                     Du kannst Deine Entscheidung ändern.
@@ -56,17 +69,19 @@ def display_sidebar(con: sql.Connection, user_name: str, att_ph) -> None:
 
         player_id = cur.execute(f"SELECT id FROM player WHERE first_name = '{user_name}'").fetchall()[0][0]
 
+        write_connection = get_write_connection()
+
         # player is going to attend the selected game
         if attend_clicked:
-            game_id = cur.execute(f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'").fetchall()[0][0]
-            cur.execute(f"UPDATE participation SET attends = 1 WHERE player_id = {player_id} AND game_id = {game_id}")
-            con.commit()
+            with write_connection.session as s:
+                game_id = cur.execute(f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'").fetchall()[0][0]
+                s.execute(f"UPDATE participation SET attends = 1 WHERE player_id = {player_id} AND game_id = {game_id}")
             st.experimental_rerun()
 
         # player is not going to attend the selected game
         if not_attend_clicked:
-            game_id = cur.execute(
-                f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'").fetchall()[0][0]
-            cur.execute(f"UPDATE participation SET attends = -1 WHERE player_id = {player_id} AND game_id = {game_id}")
-            con.commit()
+            with write_connection.session as s:
+                game_id = cur.execute(
+                    f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'").fetchall()[0][0]
+                s.execute(f"UPDATE participation SET attends = -1 WHERE player_id = {player_id} AND game_id = {game_id}")
             st.experimental_rerun()
