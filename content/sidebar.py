@@ -1,7 +1,7 @@
 import streamlit as st
 from PIL import Image
 import sqlite3 as sql
-import sqlalchemy as sqla
+from sqlalchemy.sql import text
 from utils.date import transform
 from content.game_attendance import display_attendance
 
@@ -75,7 +75,7 @@ def display_sidebar(con: sql.Connection, user_name: str, att_ph) -> None:
         if attend_clicked:
             with write_connection.session as s:
                 game_id = cur.execute(f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'").fetchall()[0][0]
-                s.execute(f"UPDATE participation SET attends = 1 WHERE player_id = {player_id} AND game_id = {game_id}")
+                s.execute(text(f"UPDATE participation SET attends = 1 WHERE player_id = {player_id} AND game_id = {game_id}"))
             st.experimental_rerun()
 
         # player is not going to attend the selected game
@@ -83,5 +83,5 @@ def display_sidebar(con: sql.Connection, user_name: str, att_ph) -> None:
             with write_connection.session as s:
                 game_id = cur.execute(
                     f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'").fetchall()[0][0]
-                s.execute(f"UPDATE participation SET attends = -1 WHERE player_id = {player_id} AND game_id = {game_id}")
+                s.execute(text(f"UPDATE participation SET attends = -1 WHERE player_id = {player_id} AND game_id = {game_id}"))
             st.experimental_rerun()
