@@ -20,7 +20,7 @@ def get_image() -> Image:
     :return: The image returned as a PIL image.
     """
 
-    return Image.open("/Users/simonschulze/tt/tt_app/images/adorf.jpg")
+    return Image.open("http://sv-adorf-erzgebirge-sport.de/wp-content/uploads/2022/03/Logo-1.jpg")
 
 
 @st.cache_resource
