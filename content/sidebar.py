@@ -57,7 +57,7 @@ def display_sidebar(con, user_name: str, att_ph) -> None:
                     Wiederhole dazu den Vorgang und wähle die jeweils andere Option aus.\n""")
         st.divider()
 
-        games = cur.execute(text("SELECT date, opponent FROM game")).fetchall()
+        games = cur.execute(text("SELECT date, opponent FROM game")).all()
         games = [f"{game[1].casefold().capitalize()} ({transform(game[0])})" for game in games]
 
         selected_game = st.selectbox("Bitte wähle ein Spiel aus:", games)
@@ -73,7 +73,8 @@ def display_sidebar(con, user_name: str, att_ph) -> None:
         if attend_clicked:
             with write_connection.session as s:
                 player_id = s.execute(text(f"SELECT id FROM player WHERE first_name = '{user_name}'")).all()[0][0]
-                game_id = cur.execute(text(f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'")).fetchall()[0][0]
+                game_id = s.execute(text(
+                    f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'")).all()[0][0]
                 s.execute(text(f"UPDATE participation SET attends = 1 WHERE player_id = {player_id} AND game_id = {game_id}"))
                 s.commit()
             st.experimental_rerun()
@@ -82,8 +83,8 @@ def display_sidebar(con, user_name: str, att_ph) -> None:
         if not_attend_clicked:
             with write_connection.session as s:
                 player_id = s.execute(text(f"SELECT id FROM player WHERE first_name = '{user_name}'")).all()[0][0]
-                game_id = cur.execute(text(
-                    f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'")).fetchall()[0][0]
+                game_id = s.execute(text(
+                    f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'")).all()[0][0]
                 s.execute(text(f"UPDATE participation SET attends = -1 WHERE player_id = {player_id} AND game_id = {game_id}"))
                 s.commit()
             st.experimental_rerun()
