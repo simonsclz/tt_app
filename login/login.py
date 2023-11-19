@@ -39,7 +39,7 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
         with st.form(key="login_form"):
             user_name = st.text_input("Benutzername:")
             password = st.text_input("Passwort:", type="password")
-            clicked = st.form_submit_button("Anmelden!", on_click=set_cookie(cm, user_name))
+            clicked = st.form_submit_button("Anmelden!", on_click=set_cookie(cm))
 
     if clicked:
         password = sha512(password.encode('utf-8'))
