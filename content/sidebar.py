@@ -50,7 +50,7 @@ def display_sidebar(con, user_name: str, att_ph) -> None:
     # img = get_image()
 
     with st.sidebar:
-        st.image("http://sv-adorf-erzgebirge-sport.de/wp-content/uploads/2022/03/Logo-1.jpg", width=200)
+        st.image("http://sv-adorf-erzgebirge-sport.de/wp-content/uploads/2022/03/Logo-1.jpg", width=225)
         st.markdown(f"""**Das ist dein Kontrollzentrum, {user_name}.**
                     Wähle unten ein Spiel aus und gib bescheid, ob Du da bist, oder nicht.
                     Du kannst Deine Entscheidung ändern.
