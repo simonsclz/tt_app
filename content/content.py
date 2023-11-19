@@ -22,8 +22,6 @@ def display(descr_ph, con: sql.Connection, user_name: str):
     :return: None.
     """
 
-    print(user_name)
-
     with descr_ph.container():
         display_description(user_name)
 
