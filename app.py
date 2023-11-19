@@ -2,7 +2,7 @@ import streamlit as st
 from PIL import Image
 from content.content import display
 from login.login import login
-import sqlite3 as sql
+import sqlalchemy as sql
 import extra_streamlit_components as stx
 
 
@@ -21,7 +21,7 @@ def establish_connection() -> sql.Connection:
     """
 
     # Connect to the local database
-    con = sql.Connection("login/login_data.sql", check_same_thread=False)
+    con = st.experimental_connection("login_data", type="sql")
     return con
 
 

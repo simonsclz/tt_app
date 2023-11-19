@@ -9,7 +9,7 @@ from utils.date import transform
 # Description: The game attendance overview will be managed here.
 
 
-def display_attendance(content_ph, con: sql.Connection):
+def display_attendance(content_ph, con):
     """
     This function displays the content of the database (attendances of players).
     :param content_ph: The placeholder (Streamlit-container) for the content.
@@ -17,7 +17,7 @@ def display_attendance(content_ph, con: sql.Connection):
     :return: None.
     """
 
-    cur = con.cursor()
+    cur = con.session
 
     num_columns = int(cur.execute("SELECT COUNT(date) FROM game").fetchall()[0][0])
     columns = st.columns([2] + [3] * num_columns)

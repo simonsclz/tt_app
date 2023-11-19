@@ -1,8 +1,8 @@
 import streamlit as st
-import sqlite3 as sql
 from hashlib import sha512
 import datetime
 import extra_streamlit_components as stx
+import sqlalchemy as sql
 
 
 # Author: Simon Schulze
@@ -31,7 +31,7 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
         password = sha512(password.encode('utf-8'))
 
         # get the password from the specified user
-        cur = con.cursor()
+        cur = con.session()
         result = cur.execute(f"SELECT password FROM player WHERE first_name = '{user_name}'")
         result = result.fetchall()
 
