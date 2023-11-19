@@ -19,7 +19,7 @@ def get_image() -> Image:
     :return: The image returned as a PIL image.
     """
 
-    return Image.open("/Users/simonschulze/tt/tt_app/images/adorf.jpg")
+    return Image.open("/tt_app/images/adorf.jpg")
 
 
 def display_sidebar(con: sql.Connection, user_name: str, att_ph) -> None:
