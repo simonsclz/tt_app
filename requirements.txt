@@ -1,2 +1,4 @@
-streamlit
+streamlit~=1.24.1
 extra_streamlit_components
+sqlalchemy~=2.0.21
+pillow~=9.4.0
