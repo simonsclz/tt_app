@@ -1,6 +1,6 @@
 import streamlit as st
 from PIL import Image
-import sqlite3 as sql
+import sqlalchemy as sqla
 from sqlalchemy.sql import text
 from utils.date import transform
 from content.game_attendance import display_attendance
@@ -35,7 +35,7 @@ def get_write_connection():
     return st.experimental_connection("login_data", type="sql")
 
 
-def display_sidebar(con: sql.Connection, user_name: str, att_ph) -> None:
+def display_sidebar(con, user_name: str, att_ph) -> None:
 
     """
     This function will display the sidebar for the application.
@@ -45,7 +45,7 @@ def display_sidebar(con: sql.Connection, user_name: str, att_ph) -> None:
     :return: None.
     """
 
-    cur = con.cursor()
+    cur = get_write_connection().session
 
     # img = get_image()
 
@@ -57,7 +57,7 @@ def display_sidebar(con: sql.Connection, user_name: str, att_ph) -> None:
                     Wiederhole dazu den Vorgang und wähle die jeweils andere Option aus.\n""")
         st.divider()
 
-        games = cur.execute("SELECT date, opponent FROM game").fetchall()
+        games = cur.execute(text("SELECT date, opponent FROM game")).fetchall()
         games = [f"{game[1].casefold().capitalize()} ({transform(game[0])})" for game in games]
 
         selected_game = st.selectbox("Bitte wähle ein Spiel aus:", games)
@@ -67,21 +67,23 @@ def display_sidebar(con: sql.Connection, user_name: str, att_ph) -> None:
         attend_clicked = c1.button("Bin da!:white_check_mark:")
         not_attend_clicked = c2.button("Bin nicht da!:x:")
 
-        player_id = cur.execute(f"SELECT id FROM player WHERE first_name = '{user_name}'").fetchall()[0][0]
+        player_id = cur.execute(text(f"SELECT id FROM player WHERE first_name = '{user_name}'")).fetchall()[0][0]
 
         write_connection = get_write_connection()
 
         # player is going to attend the selected game
         if attend_clicked:
             with write_connection.session as s:
-                game_id = cur.execute(f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'").fetchall()[0][0]
+                game_id = cur.execute(text(f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'")).fetchall()[0][0]
                 s.execute(text(f"UPDATE participation SET attends = 1 WHERE player_id = {player_id} AND game_id = {game_id}"))
+                s.commit()
             st.experimental_rerun()
 
         # player is not going to attend the selected game
         if not_attend_clicked:
             with write_connection.session as s:
-                game_id = cur.execute(
-                    f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'").fetchall()[0][0]
+                game_id = cur.execute(text(
+                    f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'")).fetchall()[0][0]
                 s.execute(text(f"UPDATE participation SET attends = -1 WHERE player_id = {player_id} AND game_id = {game_id}"))
+                s.commit()
             st.experimental_rerun()
