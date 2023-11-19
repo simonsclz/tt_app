@@ -25,7 +25,7 @@ def establish_connection() -> sql.Connection:
     return con
 
 
-@st.cache_resource(experimental_allow_widgets=True)
+@st.cache_resource()
 def get_manager() -> stx.CookieManager:
 
     """
