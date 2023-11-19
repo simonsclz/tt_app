@@ -67,13 +67,12 @@ def display_sidebar(con, user_name: str, att_ph) -> None:
         attend_clicked = c1.button("Bin da!:white_check_mark:")
         not_attend_clicked = c2.button("Bin nicht da!:x:")
 
-        player_id = cur.execute(text(f"SELECT id FROM player WHERE first_name = '{user_name}'")).fetchall()[0][0]
-
         write_connection = get_write_connection()
 
         # player is going to attend the selected game
         if attend_clicked:
             with write_connection.session as s:
+                player_id = s.execute(text(f"SELECT id FROM player WHERE first_name = '{user_name}'")).fetchall()[0][0]
                 game_id = cur.execute(text(f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'")).fetchall()[0][0]
                 s.execute(text(f"UPDATE participation SET attends = 1 WHERE player_id = {player_id} AND game_id = {game_id}"))
                 s.commit()
@@ -82,6 +81,7 @@ def display_sidebar(con, user_name: str, att_ph) -> None:
         # player is not going to attend the selected game
         if not_attend_clicked:
             with write_connection.session as s:
+                player_id = s.execute(text(f"SELECT id FROM player WHERE first_name = '{user_name}'")).fetchall()[0][0]
                 game_id = cur.execute(text(
                     f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'")).fetchall()[0][0]
                 s.execute(text(f"UPDATE participation SET attends = -1 WHERE player_id = {player_id} AND game_id = {game_id}"))
