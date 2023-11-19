@@ -54,7 +54,6 @@ def app() -> None:
     form_ph = st.empty()
     data_ph = st.empty()
 
-    st.session_state['logged_in'] = False
     logged_in, user_name = login(form_ph, data_ph, con, cm)
 
     if not st.session_state['logged_in'] and cm.get("logged_in") is None:  # also test the log-in-cookie

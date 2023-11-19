@@ -43,7 +43,6 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
                 expires_at = datetime.datetime.now() + datetime.timedelta(0, 600)
                 cm.set(key="log_in", cookie="logged_in", val=True, expires_at=expires_at)
                 cm.set(key="user_name", cookie="user_name", val=user_name, expires_at=expires_at)
-                st.experimental_rerun()
                 return True, user_name
             else:
                 with warning_ph.container():
