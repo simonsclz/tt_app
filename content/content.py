@@ -32,4 +32,4 @@ def display(descr_ph, con: sql.Connection, user_name: str):
     display_attendance(game_attendance_ph, con)
 
     # sidebar needs the attendance placeholder
-    # display_sidebar(con, user_name, game_attendance_ph)
+    display_sidebar(con, user_name, game_attendance_ph)
