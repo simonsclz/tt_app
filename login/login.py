@@ -25,7 +25,7 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
         with st.form(key="login_form"):
             user_name = st.text_input("Benutzername:")
             password = st.text_input("Passwort:", type="password")
-            clicked = st.form_submit_button("Anmelden!", on_click=st.experimental_rerun())
+            clicked = st.form_submit_button("Anmelden!")
 
     if clicked:
         password = sha512(password.encode('utf-8'))
@@ -43,6 +43,9 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
                 expires_at = datetime.datetime.now() + datetime.timedelta(0, 600)
                 cm.set(key="log_in", cookie="logged_in", val=True, expires_at=expires_at)
                 cm.set(key="user_name", cookie="user_name", val=user_name, expires_at=expires_at)
+                st.session_state['user_name'] = user_name
+                st.session_state['logged_in'] = True
+                st.experimental_rerun()
                 return True, user_name
             else:
                 with warning_ph.container():
