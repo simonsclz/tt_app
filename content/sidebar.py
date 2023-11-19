@@ -20,7 +20,7 @@ def get_image() -> Image:
     :return: The image returned as a PIL image.
     """
 
-    return Image.open("http://sv-adorf-erzgebirge-sport.de/wp-content/uploads/2022/03/Logo-1.jpg")
+    return Image.open("/Users/simonschulze/tt/tt_app/images/adorf.jpg")
 
 
 @st.cache_resource
@@ -47,10 +47,10 @@ def display_sidebar(con: sql.Connection, user_name: str, att_ph) -> None:
 
     cur = con.cursor()
 
-    img = get_image()
+    # img = get_image()
 
     with st.sidebar:
-        st.image(img, width=200)
+        st.image("http://sv-adorf-erzgebirge-sport.de/wp-content/uploads/2022/03/Logo-1.jpg", width=200)
         st.markdown(f"""**Das ist dein Kontrollzentrum, {user_name}.**
                     Wähle unten ein Spiel aus und gib bescheid, ob Du da bist, oder nicht.
                     Du kannst Deine Entscheidung ändern.
