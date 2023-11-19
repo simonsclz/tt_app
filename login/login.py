@@ -48,6 +48,8 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
                 cm.set(key="log_in", cookie="logged_in", val=True, expires_at=expires_at)
                 cm.set(key="user_name", cookie="user_name", val=user_name, expires_at=expires_at)
                 st.session_state["password_correct"] = True
+                del st.session_state["user_name"]
+                del st.session_state["password"]
                 return True
             else:
                 with warning_ph.container():
