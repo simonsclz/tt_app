@@ -1,5 +1,6 @@
 import streamlit as st
 from hashlib import sha512
+import time
 import datetime
 import extra_streamlit_components as stx
 import sqlite3 as sql
@@ -45,8 +46,11 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
                 # set the log-in-cookie to keep users logged in for 10 minutes
 
                 expires_at = datetime.datetime.now() + datetime.timedelta(0, 600)
-                cm.set(key="log_in", cookie="logged_in", val=True, expires_at=expires_at, same_site="lax")
-                cm.set(key="usr_name", cookie="user_name", val=user_name, expires_at=expires_at, same_site="lax")
+                cm.set(key="log_in", cookie="logged_in",
+                       val=True, expires_at=expires_at, same_site="lax")
+                cm.set(key="usr_name", cookie="user_name",
+                       val=user_name, expires_at=expires_at, same_site="lax")
+                time.sleep(0.5)
                 st.session_state["password_correct"] = True
                 st.session_state["user"] = user_name
                 del st.session_state["user_name"]
@@ -59,7 +63,7 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
         else:
             with warning_ph.container():
                 st.warning("Diese Anmeldedaten existieren nicht!")
-                return False  # no such username
+            return False  # no such username
 
     if st.session_state.get("password_correct", False):
         return True
