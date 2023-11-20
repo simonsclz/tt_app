@@ -61,7 +61,7 @@ def app() -> None:
 
     form_ph.empty()
 
-    if cm.get("user_name"):
+    if cm.get("user"):
         display(data_ph, con, cm.get("user_name"))  # gets executed only if logged in
     else:
         display(data_ph, con, st.session_state["user"])
