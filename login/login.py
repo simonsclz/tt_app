@@ -46,7 +46,7 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
 
                 expires_at = datetime.datetime.now() + datetime.timedelta(0, 600)
                 cm.set(key="log_in", cookie="logged_in", val=True, expires_at=expires_at, same_site="lax")
-                cm.set(key="user", cookie="user_name", val=user_name, expires_at=expires_at, same_site="lax")
+                cm.set(key="usr_name", cookie="user_name", val=user_name, expires_at=expires_at, same_site="lax")
                 st.session_state["password_correct"] = True
                 st.session_state["user"] = user_name
                 del st.session_state["user_name"]
