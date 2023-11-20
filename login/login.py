@@ -46,9 +46,9 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
                 # set the log-in-cookie to keep users logged in for 10 minutes
 
                 expires_at = datetime.datetime.now() + datetime.timedelta(0, 600)
-                cm.set(key="log_in", cookie="logged_in",
+                cm.set(cookie="logged_in",
                        val=True, expires_at=expires_at, same_site="lax")
-                cm.set(key="usr_name", cookie="user_name",
+                cm.set(cookie="user_name",
                        val=user_name, expires_at=expires_at, same_site="lax")
                 time.sleep(0.5)
                 st.session_state["password_correct"] = True
