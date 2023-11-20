@@ -8,7 +8,7 @@ import extra_streamlit_components as stx
 
 # Author: Simon Schulze
 # Date: Nov 16th 2023
-# Last change: Nov 19th 2023 by Simon Schulze
+# Last change: Nov 20th 2023 by Simon Schulze
 # Description: This is the main application with its basic structure.
 
 
@@ -61,7 +61,7 @@ def app() -> None:
 
     form_ph.empty()
 
-    if cm.get(cookie="usr_name"):
+    if cm.get(cookie="user_name"):
         display(data_ph, con, cm.get("user_name"))  # gets executed only if logged in
     else:
         display(data_ph, con, st.session_state["user"])

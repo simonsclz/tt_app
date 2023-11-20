@@ -8,7 +8,7 @@ import sqlite3 as sql
 
 # Author: Simon Schulze
 # Date: Nov 16th 2023
-# Last change: Nov 19th 2023 by Simon Schulze
+# Last change: Nov 20th 2023 by Simon Schulze
 # Description: This is the script that handles the login process.
 
 
@@ -48,20 +48,20 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
                 expires_at = datetime.datetime.now() + datetime.timedelta(0, 600)
                 cm.set(cookie="logged_in",
                        val=True, expires_at=expires_at, same_site="lax")
-                cm.set(cookie="user_name",
-                       val=user_name, expires_at=expires_at, same_site="lax")
-                time.sleep(0.5)
+                # cm.set(key="usr", cookie=cur.execute(f"""SELECT id FROM player
+                # WHERE first_name = '{user_name}'""").fetchall()[0][0],
+                # val=user_name, expires_at=expires_at, same_site="lax")
                 st.session_state["password_correct"] = True
                 st.session_state["user"] = user_name
                 del st.session_state["user_name"]
                 del st.session_state["password"]
                 return True
             else:
-                with warning_ph.container():
+                with form_ph.container():
                     st.warning("Diese Anmeldedaten existieren nicht!")
                 return False  # hashes do not match
         else:
-            with warning_ph.container():
+            with form_ph.container():
                 st.warning("Diese Anmeldedaten existieren nicht!")
             return False  # no such username
 
