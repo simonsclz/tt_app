@@ -60,6 +60,7 @@ def app() -> None:
         st.stop()
 
     form_ph.empty()
+    data_ph.empty()
 
     if cm.get(cookie="user_name"):
         display(data_ph, con, cm.get("user_name"))  # gets executed only if logged in
