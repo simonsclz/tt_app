@@ -43,6 +43,8 @@ def app() -> None:
     :return: None.
     """
 
+    st.title("Tischtennis Adorf")
+
     con = establish_connection()
     cm = get_manager()
 
