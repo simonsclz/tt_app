@@ -57,8 +57,10 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
                 del st.session_state["password"]
                 return True
             else:
+                st.session_state["password_correct"] = False
                 return False  # hashes do not match
         else:
+            st.session_state["password_correct"] = False
             return False  # no such username
 
     if st.session_state.get("password_correct", False):
@@ -67,6 +69,7 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
     show_login(form_ph)
 
     if "password_correct" in st.session_state:
-        st.error("Diese Anmeldedaten existieren nicht!")
+        with warning_ph.container():
+            st.error("Diese Anmeldedaten existieren nicht!")
 
     return False
