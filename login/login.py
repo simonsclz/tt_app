@@ -67,7 +67,6 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
     show_login(form_ph)
 
     if "password_correct" in st.session_state:
-        with warning_ph.container():
-            st.warning("Diese Anmeldedaten existieren nicht!")
+        st.error("Diese Anmeldedaten existieren nicht!")
 
     return False
