@@ -57,16 +57,16 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
                 del st.session_state["password"]
                 return True
             else:
-                with form_ph.container():
-                    st.warning("Diese Anmeldedaten existieren nicht!")
                 return False  # hashes do not match
         else:
-            with form_ph.container():
-                st.warning("Diese Anmeldedaten existieren nicht!")
             return False  # no such username
 
     if st.session_state.get("password_correct", False):
         return True
+
+    if "password_correct" in st.session_state:
+        with form_ph.container():
+            st.warning("Diese Anmeldedaten existieren nicht!")
 
     show_login(form_ph)
     return False
