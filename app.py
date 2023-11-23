@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import Image
+import time
 from content.content import display
 from login.login import login
 import sqlite3 as sql
@@ -56,16 +56,25 @@ def app() -> None:
     form_ph = st.empty()
     data_ph = st.empty()
 
-    logged_in = login(form_ph, data_ph, con, cm)
+    user_name = con.cursor().execute(f"""SELECT first_name FROM player
+                                WHERE ajs_id = '{cm.get('ajs_anonymous_id')}'""").fetchall()
 
-    if not logged_in and cm.get("logged_in") is None:  # also test the log-in-cookie
+    time.sleep(0.25)  # artificial delay
+
+    if len(user_name) == 0:
+        logged_in = login(form_ph, data_ph, con, cm)
+    else:
+        user_name = user_name[0][0]  # user_name now string
+        logged_in = True
+
+    if not logged_in:  # also test the log-in-cookie
         st.stop()
 
     form_ph.empty()
     data_ph.empty()
 
-    if cm.get(cookie="user_name"):
-        display(data_ph, con, cm.get("user_name"))  # gets executed only if logged in
+    if user_name:
+        display(data_ph, con, user_name)  # gets executed only if logged in
     else:
         display(data_ph, con, st.session_state["user"])
 

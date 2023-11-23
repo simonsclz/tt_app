@@ -1,6 +1,5 @@
 import streamlit as st
 from PIL import Image
-import sqlalchemy as sqla
 from sqlalchemy.sql import text
 from utils.date import transform
 from content.game_attendance import display_attendance

@@ -1,6 +1,6 @@
 import streamlit as st
 from hashlib import sha512
-import time
+from sqlalchemy.sql import text
 import datetime
 import extra_streamlit_components as stx
 import sqlite3 as sql
@@ -8,8 +8,20 @@ import sqlite3 as sql
 
 # Author: Simon Schulze
 # Date: Nov 16th 2023
-# Last change: Nov 20th 2023 by Simon Schulze
+# Last change: Nov 23rd 2023 by Simon Schulze
 # Description: This is the script that handles the login process.
+
+
+@st.cache_resource
+def get_write_connection():
+
+    """
+    Since writing in an SQL-database is not possible with SQLite3 when running on
+    Streamlit-cloud, we need to create a Streamlit-DB-connection.
+    :return:
+    """
+
+    return st.experimental_connection("login_data", type="sql")
 
 
 def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (bool, str):
@@ -26,35 +38,8 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
             with st.form(key="login_form"):
                 st.text_input("Benutzername:", key="user_name")
                 st.text_input("Passwort:", type="password", key="password")
-                st.markdown("""
-                    <style>
-                    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Koulen&family=Lato&family=Nunito&family=Playfair+Display:ital@1&family=Prata&family=Raleway:ital,wght@1,100&family=Roboto&family=Roboto+Condensed&family=Teko&display=swap');
-                    div.stButton > button:first-child{
-                        font-family: Roboto, sans-serif;
-                        font-weight: 0;
-                        font-size: 14px;
-                        color: #fff;
-                        background-color: #d62828;
-                        padding: 10px 10px;
-                        border: solid #264653 3px;
-                        box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
-                        border-radius: 50px;
-                        transition : 1000ms;
-                        transform: translateY(0);
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        cursor: pointer;
-                    }
-                    div.stButton > button:first-child:hover{
-                        transition : 1000ms;
-                        padding: 10px 25px;
-                        transform : translateY(-0px);
-                        background-color: #d6282877;
-                        color: #264653;
-                        border: solid 3px #264653;
-                    }
-                    </style>""", unsafe_allow_html=True)
+                st.markdown(open("/Users/simonschulze/tt/tt_app/"
+                                 "button_styles/login_button.html").read(), unsafe_allow_html=True)
                 st.form_submit_button("Anmelden!", on_click=check_password)
 
     def check_password():
@@ -77,9 +62,18 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
                 expires_at = datetime.datetime.now() + datetime.timedelta(0, 600)
                 cm.set(cookie="logged_in",
                        val=True, expires_at=expires_at, same_site="lax")
-                # cm.set(key="usr", cookie=cur.execute(f"""SELECT id FROM player
-                # WHERE first_name = '{user_name}'""").fetchall()[0][0],
-                # val=user_name, expires_at=expires_at, same_site="lax")
+
+                # get a writing connection to the database
+                write_connection = get_write_connection()
+                with write_connection.session as s:
+
+                    # save ajs_anonymous_id as unique identifier for user (SSO)
+
+                    s.execute(text(f"""UPDATE player
+                                SET ajs_id = '{cm.get('ajs_anonymous_id')}'
+                                WHERE first_name = '{user_name}'"""))
+                    s.commit()
+
                 st.session_state["password_correct"] = True
                 st.session_state["user"] = user_name
                 del st.session_state["user_name"]
