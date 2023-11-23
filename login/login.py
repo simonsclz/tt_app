@@ -26,6 +26,35 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
             with st.form(key="login_form"):
                 st.text_input("Benutzername:", key="user_name")
                 st.text_input("Passwort:", type="password", key="password")
+                st.markdown("""
+                    <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Koulen&family=Lato&family=Nunito&family=Playfair+Display:ital@1&family=Prata&family=Raleway:ital,wght@1,100&family=Roboto&family=Roboto+Condensed&family=Teko&display=swap');
+                    div.stButton > button:first-child{
+                        font-family: Roboto, sans-serif;
+                        font-weight: 0;
+                        font-size: 14px;
+                        color: #fff;
+                        background-color: #d62828;
+                        padding: 10px 10px;
+                        border: solid #264653 3px;
+                        box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
+                        border-radius: 50px;
+                        transition : 1000ms;
+                        transform: translateY(0);
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        cursor: pointer;
+                    }
+                    div.stButton > button:first-child:hover{
+                        transition : 1000ms;
+                        padding: 10px 25px;
+                        transform : translateY(-0px);
+                        background-color: #d6282877;
+                        color: #264653;
+                        border: solid 3px #264653;
+                    }
+                    </style>""", unsafe_allow_html=True)
                 st.form_submit_button("Anmelden!", on_click=check_password)
 
     def check_password():
