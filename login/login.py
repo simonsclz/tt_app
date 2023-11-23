@@ -38,7 +38,7 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
             with st.form(key="login_form"):
                 st.text_input("Benutzername:", key="user_name")
                 st.text_input("Passwort:", type="password", key="password")
-                st.markdown(open("/Users/simonschulze/tt/tt_app/"
+                st.markdown(open("/mount/src/tt_app/"
                                  "button_styles/login_button.html").read(), unsafe_allow_html=True)
                 st.form_submit_button("Anmelden!", on_click=check_password)
 
