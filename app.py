@@ -8,7 +8,7 @@ import extra_streamlit_components as stx
 
 # Author: Simon Schulze
 # Date: Nov 16th 2023
-# Last change: Nov 20th 2023 by Simon Schulze
+# Last change: Nov 25th 2023 by Simon Schulze
 # Description: This is the main application with its basic structure.
 
 
@@ -56,16 +56,7 @@ def app() -> None:
     form_ph = st.empty()
     data_ph = st.empty()
 
-    user_name = con.cursor().execute(f"""SELECT first_name FROM player
-                                WHERE ajs_id = '{cm.get('ajs_anonymous_id')}'""").fetchall()
-
-    time.sleep(0.25)  # artificial delay
-
-    if len(user_name) == 0:
-        logged_in = login(form_ph, data_ph, con, cm)
-    else:
-        user_name = user_name[0][0]  # user_name now string
-        logged_in = True
+    logged_in = login(form_ph, data_ph, con, cm)
 
     if not logged_in:  # also test the log-in-cookie
         st.stop()
@@ -73,9 +64,7 @@ def app() -> None:
     form_ph.empty()
     data_ph.empty()
 
-    if user_name:
-        display(data_ph, con, user_name)  # gets executed only if logged in
-    else:
+    if logged_in:
         display(data_ph, con, st.session_state["user"])
 
 

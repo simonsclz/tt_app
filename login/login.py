@@ -8,20 +8,8 @@ import sqlite3 as sql
 
 # Author: Simon Schulze
 # Date: Nov 16th 2023
-# Last change: Nov 23rd 2023 by Simon Schulze
+# Last change: Nov 25th 2023 by Simon Schulze
 # Description: This is the script that handles the login process.
-
-
-@st.cache_resource
-def get_write_connection():
-
-    """
-    Since writing in an SQL-database is not possible with SQLite3 when running on
-    Streamlit-cloud, we need to create a Streamlit-DB-connection.
-    :return:
-    """
-
-    return st.experimental_connection("login_data", type="sql")
 
 
 def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (bool, str):
@@ -59,26 +47,16 @@ def login(form_ph, warning_ph, con: sql.Connection, cm: stx.CookieManager) -> (b
 
                 # set the log-in-cookie to keep users logged in for 10 minutes
 
-                expires_at = datetime.datetime.now() + datetime.timedelta(0, 600)
-                cm.set(cookie="logged_in",
-                       val=True, expires_at=expires_at, same_site="lax")
-
-                # get a writing connection to the database
-                write_connection = get_write_connection()
-                with write_connection.session as s:
-
-                    # save ajs_anonymous_id as unique identifier for user (SSO)
-
-                    s.execute(text(f"""UPDATE player
-                                SET ajs_id = '{cm.get('ajs_anonymous_id')}'
-                                WHERE first_name = '{user_name}'"""))
-                    s.commit()
+                # expires_at = datetime.datetime.now() + datetime.timedelta(0, 600)
+                # cm.set(cookie="logged_in",
+                # val=True, expires_at=expires_at, same_site="lax")
 
                 st.session_state["password_correct"] = True
                 st.session_state["user"] = user_name
                 del st.session_state["user_name"]
                 del st.session_state["password"]
                 return True
+
             else:
                 st.session_state["password_correct"] = False
                 return False  # hashes do not match
