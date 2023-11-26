@@ -14,7 +14,6 @@ import extra_streamlit_components as stx
 
 @st.cache_resource(experimental_allow_widgets=True)
 def establish_connection() -> sql.Connection:
-
     """
     Establishes the connection to the database. Uses Streamlit caching to speed up.
     :return: None.
@@ -27,7 +26,6 @@ def establish_connection() -> sql.Connection:
 
 @st.cache_resource(experimental_allow_widgets=True)
 def get_manager() -> stx.CookieManager:
-
     """
     Creates a cookie manager from extra_streamlit_components package.
     :return: The cookie manager.
@@ -36,8 +34,18 @@ def get_manager() -> stx.CookieManager:
     return stx.CookieManager()
 
 
-def app() -> None:
+def logout():
 
+    """
+    Function that handles the logout of a user.
+    :return: None
+    """
+
+    del st.session_state["password_correct"]
+    st.experimental_rerun()
+
+
+def app() -> None:
     """
     Runs the main app.
     :return: None.
@@ -51,7 +59,10 @@ def app() -> None:
     c1, c2 = st.columns([4, 1])
     c1.header("Tischtennis Adorf 1. Mannschaft")
     # c2.image(Image.open("./images/adorf.jpg"), width=125)
-    c2.header(":table_tennis_paddle_and_ball:" * 3)
+    with c2:
+        st.markdown(open("/mount/src/tt_app/"
+                         "button_styles/logout_button.html").read())
+        st.button("Logout", on_click=logout)
 
     form_ph = st.empty()
     data_ph = st.empty()
