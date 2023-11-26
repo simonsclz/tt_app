@@ -66,7 +66,7 @@ def app() -> None:
     data_ph.empty()
 
     if logged_in:
-        display(data_ph, con, st.session_state["user"])
+        display(data_ph, news_ph, con, st.session_state["user"])
 
 
 if __name__ == "__main__":
