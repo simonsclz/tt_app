@@ -60,9 +60,8 @@ def app() -> None:
     c1.header("Tischtennis Adorf 1. Mannschaft")
     # c2.image(Image.open("./images/adorf.jpg"), width=125)
     with c2:
-        st.markdown(open("/mount/src/tt_app/"
-                         "button_styles/logout_button.html").read(), unsafe_allow_html=True)
-        st.button("Logout", on_click=logout)
+        logout_ph = st.empty()
+        logout_ph.markdown("🏓" * 3)
 
     form_ph = st.empty()
     data_ph = st.empty()
@@ -72,6 +71,12 @@ def app() -> None:
 
     if not logged_in:  # also test the log-in-cookie
         st.stop()
+
+    logout_ph.empty()
+    with logout_ph.container():
+        st.markdown(open("/mount/src/tt_app/"
+                         "button_styles/logout_button.html").read(), unsafe_allow_html=True)
+        st.button("Logout", on_click=logout)
 
     form_ph.empty()
     data_ph.empty()
