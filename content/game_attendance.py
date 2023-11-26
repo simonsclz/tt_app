@@ -33,8 +33,6 @@ def display_attendance(content_ph, con: sql.Connection):
                                 INNER JOIN game on T.game_id = game.game_id
                                 ORDER BY player_id""").fetchall()
 
-    st.subheader("Anwesenheit")
-
     with content_ph.container():
 
         # print games
