@@ -34,7 +34,7 @@ def display(descr_ph, news_ph, con: sql.Connection, user_name: str):
     st.divider()
 
     # use an empty container and our display_attendance()-function
-    st.subheader("Anwesenheit")
+    st.subheader("Anwesenheiten")
     game_attendance_ph = st.empty()
     display_attendance(game_attendance_ph, con)
 
