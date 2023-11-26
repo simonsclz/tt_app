@@ -54,8 +54,8 @@ def app() -> None:
     c2.header(":table_tennis_paddle_and_ball:" * 3)
 
     form_ph = st.empty()
-    news_ph = st.empty()
     data_ph = st.empty()
+    news_ph = st.empty()
 
     logged_in = login(form_ph, data_ph, con, cm)
 
