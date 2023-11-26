@@ -24,12 +24,12 @@ def display(descr_ph, news_ph, con: sql.Connection, user_name: str):
     :return: None.
     """
 
-    display_news(news_ph)
+    with descr_ph.container():
+        display_description(user_name)
 
     st.divider()
 
-    with descr_ph.container():
-        display_description(user_name)
+    display_news(news_ph)
 
     st.divider()
 
