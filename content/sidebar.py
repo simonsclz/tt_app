@@ -67,6 +67,7 @@ def display_sidebar(con, user_name: str, att_ph) -> None:
         not_attend_clicked = c2.button("Bin nicht da!:x:")
 
         st.divider()
+        st.markdown("Hier siehst Du die aktuelle Tabelle:")
         html(open("/mount/src/tt_app/content/table.html").read(), height=185)
 
         write_connection = get_write_connection()
