@@ -7,7 +7,7 @@ from streamlit.components.v1 import html
 
 # Author: Simon Schulze
 # Date: Nov 17th 2023
-# Last change: Nov 19th 2023 by Simon Schulze
+# Last change: Nov 26th 2023 by Simon Schulze
 # Description: The sidebar will be constructed in this script.
 
 
@@ -67,7 +67,7 @@ def display_sidebar(con, user_name: str, att_ph) -> None:
         not_attend_clicked = c2.button("Bin nicht da!:x:")
 
         st.divider()
-        html(open("./table.html").read())
+        html(open("/mount/src/tt_app/content/table.html").read())
 
         write_connection = get_write_connection()
 
