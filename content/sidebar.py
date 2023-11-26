@@ -67,7 +67,7 @@ def display_sidebar(con, user_name: str, att_ph) -> None:
         not_attend_clicked = c2.button("Bin nicht da!:x:")
 
         st.divider()
-        html(open("/mount/src/tt_app/content/table.html").read())
+        html(open("/mount/src/tt_app/content/table.html").read(), height=170)
 
         write_connection = get_write_connection()
 
