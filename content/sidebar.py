@@ -63,6 +63,8 @@ def display_sidebar(con, user_name: str, att_ph) -> None:
 
         # use buttons to update the databases entries
         c1, c2 = st.columns(2)
+        st.markdown(open("/mount/src/tt_app/"
+                         "button_styles/attendance_button.html").read(), unsafe_allow_html=True)
         attend_clicked = c1.button("Da!:white_check_mark:")
         not_attend_clicked = c2.button("Nicht da!:x:")
 
