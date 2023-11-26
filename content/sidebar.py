@@ -66,6 +66,9 @@ def display_sidebar(con, user_name: str, att_ph) -> None:
         attend_clicked = c1.button("Bin da!:white_check_mark:")
         not_attend_clicked = c2.button("Bin nicht da!:x:")
 
+        st.divider()
+        html(open("./table.html").read())
+
         write_connection = get_write_connection()
 
         # player is going to attend the selected game
@@ -87,6 +90,3 @@ def display_sidebar(con, user_name: str, att_ph) -> None:
                 s.execute(text(f"UPDATE participation SET attends = -1 WHERE player_id = {player_id} AND game_id = {game_id}"))
                 s.commit()
             st.experimental_rerun()
-
-        st.divider()
-        html(open("./table.html").read())
