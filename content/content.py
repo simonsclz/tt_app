@@ -28,6 +28,7 @@ def display(descr_ph, news_ph, con: sql.Connection, user_name: str):
         display_description(user_name)
         st.divider()
 
+    # display the latest news
     display_news(news_ph)
 
     st.divider()

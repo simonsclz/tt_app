@@ -19,6 +19,10 @@ def display_news(news_ph):
         c1.markdown("### Neuigkeiten")
         c2.markdown("### Die nächsten Termine")
 
+        c1.markdown("""- aktueller Punktspielbericht: (Spielbericht
+        Rabenstein-Adorf)[http://tischtennis-adorf.de/psb_adorf1-rabenstein-hr2023]""")
+        c1.markdown("- Plakate wurden in Adorf aufgehangen!")
+
         c2.markdown("- 14.12.2023: Pokalabend der zweiten Mannschaft")
         c2.markdown("- 15.12.2023: VRL 6")
         c2.markdown("- 21.12.2023: Weihnachtsdoppelturnier")
