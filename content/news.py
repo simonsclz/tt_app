@@ -16,5 +16,9 @@ def display_news(news_ph):
 
     with news_ph.container():
         c1, c2 = st.columns(2)
-        c1.markdown("## Die nächsten Spiele")
-        c2.markdown("## Die nächsten Termine")
+        c1.markdown("### Neuigkeiten")
+        c2.markdown("### Die nächsten Termine")
+
+        c2.markdown("- 14.12.2023: Pokalabend der zweiten Mannschaft")
+        c2.markdown("- 15.12.2023: VRL 6")
+        c2.markdown("- 21.12.2023: Weihnachtsdoppelturnier")

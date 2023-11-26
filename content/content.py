@@ -26,8 +26,7 @@ def display(descr_ph, news_ph, con: sql.Connection, user_name: str):
 
     with descr_ph.container():
         display_description(user_name)
-
-    st.divider()
+        st.divider()
 
     display_news(news_ph)
 
