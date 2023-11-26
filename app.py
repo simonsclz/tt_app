@@ -61,7 +61,7 @@ def app() -> None:
     # c2.image(Image.open("./images/adorf.jpg"), width=125)
     with c2:
         st.markdown(open("/mount/src/tt_app/"
-                         "button_styles/logout_button.html").read())
+                         "button_styles/logout_button.html").read(), unsafe_allow_html=True)
         st.button("Logout", on_click=logout)
 
     form_ph = st.empty()
