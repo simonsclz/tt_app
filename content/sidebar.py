@@ -63,8 +63,8 @@ def display_sidebar(con, user_name: str, att_ph) -> None:
 
         # use buttons to update the databases entries
         c1, c2 = st.columns(2)
-        attend_clicked = c1.button("Bin da!:white_check_mark:")
-        not_attend_clicked = c2.button("Bin nicht da!:x:")
+        attend_clicked = c1.button("Da!:white_check_mark:")
+        not_attend_clicked = c2.button("Nicht da!:x:")
 
         st.divider()
         st.markdown("Hier siehst Du die aktuelle Tabelle:")

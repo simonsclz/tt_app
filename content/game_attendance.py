@@ -5,7 +5,7 @@ from utils.date import transform
 
 # Author: Simon Schulze
 # Date: Nov 18th 2023
-# Last change: Nov 19th 2023 by Simon Schulze
+# Last change: Nov 26th 2023 by Simon Schulze
 # Description: The game attendance overview will be managed here.
 
 
@@ -32,6 +32,8 @@ def display_attendance(content_ph, con: sql.Connection):
                                 FROM (player INNER JOIN participation ON player.id = participation.player_id) T
                                 INNER JOIN game on T.game_id = game.game_id
                                 ORDER BY player_id""").fetchall()
+
+    st.subheader("Anwesenheit")
 
     with content_ph.container():
 
