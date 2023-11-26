@@ -8,7 +8,7 @@ import extra_streamlit_components as stx
 
 # Author: Simon Schulze
 # Date: Nov 16th 2023
-# Last change: Nov 25th 2023 by Simon Schulze
+# Last change: Nov 26th 2023 by Simon Schulze
 # Description: This is the main application with its basic structure.
 
 
@@ -54,6 +54,7 @@ def app() -> None:
     c2.header(":table_tennis_paddle_and_ball:" * 3)
 
     form_ph = st.empty()
+    news_ph = st.empty()
     data_ph = st.empty()
 
     logged_in = login(form_ph, data_ph, con, cm)
