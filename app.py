@@ -42,7 +42,6 @@ def logout():
     """
 
     del st.session_state["password_correct"]
-    st.experimental_rerun()
 
 
 def app() -> None:
@@ -61,7 +60,7 @@ def app() -> None:
     # c2.image(Image.open("./images/adorf.jpg"), width=125)
     with c2:
         logout_ph = st.empty()
-        logout_ph.markdown("🏓" * 3)
+        logout_ph.subheader("🏓" * 3)
 
     form_ph = st.empty()
     data_ph = st.empty()
