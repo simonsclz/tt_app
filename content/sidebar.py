@@ -2,7 +2,7 @@ import streamlit as st
 from PIL import Image
 from sqlalchemy.sql import text
 from utils.date import transform
-from content.game_attendance import display_attendance
+from streamlit.components.v1 import html
 
 
 # Author: Simon Schulze
@@ -87,3 +87,6 @@ def display_sidebar(con, user_name: str, att_ph) -> None:
                 s.execute(text(f"UPDATE participation SET attends = -1 WHERE player_id = {player_id} AND game_id = {game_id}"))
                 s.commit()
             st.experimental_rerun()
+
+        st.divider()
+        html(open("./table.html").read())
