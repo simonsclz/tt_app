@@ -90,6 +90,6 @@ def display_sidebar(con, user_name: str, att_ph) -> None:
                 player_id = s.execute(text(f"SELECT id FROM player WHERE first_name = '{user_name}'")).all()[0][0]
                 game_id = s.execute(text(
                     f"SELECT game_id FROM game WHERE opponent = '{selected_game.split(' ')[0].upper()}'")).all()[0][0]
-                s.execute(text(f"UPDATE participation SET attends = -1 WHERE player_id = {player_id} AND game_id = {game_id}"))
+                s.execute(text(f"UPDATE participation SET attends = 0 WHERE player_id = {player_id} AND game_id = {game_id}"))
                 s.commit()
             st.experimental_rerun()
