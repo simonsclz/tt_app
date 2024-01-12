@@ -48,5 +48,5 @@ def display_attendance(content_ph, con: sql.Connection):
             if player_name != last_name:
                 columns[0].markdown(f"*{player_name}*")
                 last_name = player_name
-            emoji = ":white_check_mark:" if attends == 1 else ":x:"
+            emoji = "✅" if attends == 1 else ("❌" if attends == 0 else "❔")
             columns[column_indices[opponent]].write(emoji)
