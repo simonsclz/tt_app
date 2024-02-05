@@ -50,8 +50,8 @@ def app() -> None:
     :return: None.
     """
 
-    st.title("Tischtennis Adorf")
     st.set_page_config(page_title="Tischtennis Adorf", page_icon="🏓", layout="wide")
+    st.title("Tischtennis Adorf")
 
     con = establish_connection()
     cm = get_manager()
