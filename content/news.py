@@ -21,6 +21,6 @@ def display_news(news_ph):
 
         c1.markdown("""- Adorf 1 steht in der Endrunde des Stadtpokals 🤩""")
 
-        c2.markdown("- 15.01.2024: Punktspiel gegen Post SV Chemnitz 2")
-        c2.markdown("- 24.01.2024: Punktspiel gegen SV GW Niederwiesa")
-        c2.markdown("- 27.01.2024: Vereinsausflug zum HUSS/Schießstand")
+        c2.markdown("- 09.02.2024: Pokalfinale in Adorf!")
+        c2.markdown("- 29.02.2024: Heimspiel gegen Aufbau 4")
+        c2.markdown("- 05.03.2024: Auswärtsspiel gegen Lok")
